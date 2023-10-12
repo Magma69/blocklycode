@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learning to code? Well then Blockly Code is just for you! We have a drag and drop system to make coding fun and simple!">
+    <meta name="keywords" content="blockly code coding block blocks editor">
+    <meta name="title" content="Sign In - Blockly Code">
+    <meta property="og:site_name" content="Blockly Code">
+    <meta property="og:title" content="Sign In - Blockly Code">
+    <meta property="og:url" content="https://blocklycode.org">
+    <meta property="og:image" content="https://assets.blocklycode.org/favicon.png">
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="Learning to code? Well then Blockly Code is just for you! We have a drag and drop system to make coding fun and simple!">
+    <link rel="icon" href="https://assets.blocklycode.org/favicon.png">
+    <link rel="stylesheet" href="https://styles.blocklycode.org/global.css">
+    <link rel="stylesheet" href="https://auth.blocklycode.org/global.css">
+    <link rel="stylesheet" href="../styles/signup.css">
+    <script src="https://scripts.blocklycode.org/global.js" crossorigin="anonymous" defer></script>
+    <script src="script.js" defer></script>
+    <title>Sign In - Blockly Code</title>
+</head>
+<body>
+    <div id="popups"></div>
+    <main class="card-wrapper">
+        <div class="card">
+            <h1 class="card-title">Sign In to Blockly Code</h1>
+            <div class="input-wrapper">
+                <label for="usernameInput" class="input-hidden-label">Username or Email</label>
+                <p class="input-error" id="usernameError"></p>
+                <input type="text" class="input" id="usernameInput" oninput="inputs.validate(this)" placeholder="Username or Email">
+            </div>
+            <div class="input-wrapper">
+                <label for="passwordInput" class="input-hidden-label">Password</label>
+                <p class="input-error" id="passwordError"></p>
+                <input type="password" class="input" id="passwordInput" oninput="inputs.validate(this)" placeholder="Password">
+                <button class="input-vis-toggle" onclick="inputs.passwordToggle(this.previousElementSibling.id)"></button>
+            </div>
+            <div class="flex v-center">
+                <!-- <div class="social-login-wrapper | flex v-center gap-100">
+                    <a class="social-login-btn" href="/external/discord/login" aria-label="Login with Discord"><i class='bx bxl-discord bx-tada-hover'></i></a>
+                    <a class="social-login-btn" href="/external/github/login" aria-label="Login with GitHub"><i class='bx bxl-github bx-tada-hover'></i></a>
+                    <button class="social-login-btn" aria-label="Login with Google"><i class='bx bxl-google bx-tada-hover'></i></button>
+                </div> -->
+                <a class="forgot | push-right" href="/password/forgot">Forgot Password?</a>
+            </div>
+            <button class="submit-btn | btn filled darken" onclick="submit(this)">
+                <div class="loader"></div>
+                <span>Sign In</span>
+            </button>
+        </div>
+    </main>
+    <aside class="login-sidebar">
+        <div>
+            <h2>New to Blockly?</h2>
+            <p>Sign up for free today and make your dreams into reality!</p>
+            <a class="btn clr-primary filled darken" href="/signup">Sign Up</a>
+        </div>
+    </aside>
+</body>
+</html>

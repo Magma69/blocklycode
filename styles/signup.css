@@ -1,0 +1,66 @@
+body {
+    display: grid;
+    grid-template-columns: 1fr 35rem;
+    align-items: revert;
+}
+@media (max-width: 900px) and (min-width: 700px) {
+    body {
+        grid-template-columns: 1fr 27rem;
+    }
+    .card {
+        width: 40rem;
+    }
+}
+@media (max-width: 700px) {
+    body {
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: flex-end;
+        align-items: normal;
+        gap: 7rem;
+    }
+}
+
+.login-sidebar {
+    background: var(--bc-clr-dark-900);
+    display: grid;
+    place-items: center;
+    padding: 3rem;
+}
+.login-sidebar h2 {
+    border-bottom: none;
+    margin-block: 0 1rem;
+    grid-area: title;
+    font-size: var(--bc-fs-900);
+    color: var(--bc-clr-primary-400);
+}
+.login-sidebar .btn {
+    grid-area: button;
+    width: 100%;
+}
+.login-sidebar p {
+    margin-bottom: 0;
+    grid-area: text;
+}
+
+@media (min-width: 701px) {
+    .login-sidebar :is(h2, p) {
+        text-align: center;
+    }
+    .login-sidebar .btn {
+        margin-block: 3rem;
+    }
+}
+@media (max-width: 700px) {
+    .login-sidebar div {
+        display: grid;
+        grid-template-areas: "title button" "text button";
+        column-gap: 1rem;
+        width: 100%;
+    }
+    .login-sidebar .btn {
+        margin: 0;
+        align-self: center;
+        height: fit-content;
+    }
+}
