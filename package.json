@@ -1,0 +1,52 @@
+{
+  "name": "blocklycode",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "build": {
+    "appId": "blockly-code",
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "logo.ico"
+    },
+    "linux": {
+      "target": [
+        "deb",
+        "snap",
+        "rpm"
+      ],
+      "icon": "linuxIcon.png"
+    },
+    "nsis": {
+      "oneClick": true,
+      "installerIcon": "logo.ico",
+      "uninstallerIcon": "logo.ico",
+      "uninstallDisplayName": "blockly-code uninastall",
+      "license": "license.md",
+      "allowToChangeInstallationDirectory": false
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Magma69/blocklycode.git"
+  },
+  "author": "magma69",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Magma69/blocklycode/issues"
+  },
+  "homepage": "https://github.com/Magma69/blocklycode#readme",
+  "dependencies": {
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "electron": "^27.0.0",
+    "electron-builder": "^24.6.4"
+  }
+}
