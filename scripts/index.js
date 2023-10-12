@@ -145,4 +145,4 @@
 //     document.getElementById('number2').classList.remove('icon')
 //   }
 // }
-window.location = "https://blocklycode.org"
+window.location = "https://blocklycode.org/"
