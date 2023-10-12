@@ -1,69 +1,403 @@
-.userSettings {
-    display: flex;
+aside.sidebar .sidebar-title {
+    border-bottom: none;
 }
-.userSelection {
-    display: grid;
+aside.sidebar .sidebar-bottom .sidebar-item {
+    border: none;
+    margin-inline: auto;
+    padding-inline: 1rem;
+    width: fit-content;
 }
-.userSelection button {
-    background: transparent;
-    border-bottom: 1px solid white;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    text-align: center;
-    color: white;
-    font-size: 15px;
-    font-family: var(--font-fam);
-    transition: 0.5s;
-}
-.userSelection button:hover {
-    background: #202020;
-    cursor: pointer;
+#nav_username {
+    border: none;
+    margin: .5rem .5rem 0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: var(--bc-fs-700);
+    color: var(--bc-clr-primary-400);
+    overflow: hidden;
 }
 
-.userSection {
-    background: #202020;
-    margin: 5px;
-    width: 90%;
+.section-wrapper {
+    width: 70%;
 }
-.topstuff {
-    display: inline-flex;
-    border: 1px solid white;
-    border-radius: 5px;
+.section-wrapper:last-of-type {
+    margin-bottom: 2rem;
+}
+@media (max-width: 850px) {
+    .section-wrapper {
+        width: 100%;
+    }
+}
+
+.toggle-wrapper {
+    margin-block: .5rem;
+}
+.grid > .toggle-wrapper {
+    margin: 0;
+}
+
+:is(.account-wrapper, .security-wrapper) .label {
+    margin-block: .5rem;
+    line-height: 2;
+}
+:is(.account-wrapper, .security-wrapper) .input-wrapper {
+    margin: 0;
+}
+:is(.account-wrapper, .security-wrapper) .input-styles:first-child {
+    margin-bottom: .5rem;
+}
+
+.account-expand-button {
+    margin: auto;
+    display: flex;
+    font-size: var(--bc-fs-500);
+    color: var(--bc-clr-text-100);
+    transition: .3s;
+}
+.account-expand-button:is(:hover, :focus, :focus-visible, :focus-within, :active) {
+    background: transparent;
+}
+.account-expand-button:hover {
+    color: var(--bc-clr-secondary-400);
+}
+
+.account-wrapper .account-expand-content {
+    background: var(--bc-clr-dark-700);
+    border: 2px solid var(--bc-clr-bg-input);
+    border-top: none;
+    border-radius: 0 0 .5rem .5rem;
+    margin-top: -1rem;
+    padding: .5rem;
+    display: none;
+}
+
+.account-wrapper.account-field-username .account-expand-content[data-field="username"],
+.account-wrapper.account-field-email .account-expand-content[data-field="email"],
+.account-wrapper.account-field-phone .account-expand-content[data-field="phone"] {
+    display: block;
+}
+
+.account-expand-content .label {
+    margin-left: .5rem;
+    line-height: 1;
+}
+
+.account-expand-notallowed {
+    font-size: var(--bc-fs-300);
+    color: var(--bc-clr-text-600);
+}
+.account-expand-notallowed :is(button, a) {
+    font-weight: 400;
+    color: var(--bc-clr-text-100);
+    cursor: pointer;
+}
+.account-expand-notallowed :is(button, a):is(:hover, :focus-visible) {
+    text-decoration: underline;
+}
+
+.account-expand-error {
+    margin: auto 1rem auto 0;
+    font-weight: 400;
+    font-size: var(--bc-fs-400);
+    font-style: italic;
+}
+
+#accountPhoneExpandUpdateDrop {
+    margin-block: auto;
+    display: flex;
+}
+#accountPhoneExpandUpdateDrop .dropdown-menu {
+    width: 25rem;
+}
+#accountPhoneExpandUpdateList {
+    max-height: 30rem;
+    overflow-y: scroll;
+}
+
+.account-expand-update-phone-country {
+    background: var(--bc-clr-dark-700);
+    border-radius: .5rem;
+    padding: .1rem .5rem;
+    margin-right: .5rem;
+    white-space: nowrap;
+    font-size: var(--bc-fs-300);
+    color: var(--bc-clr-text-100);
+}
+.account-expand-update-phone-country-name {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.account-expand-update-phone-country-code {
+    margin-left: auto;
+    padding-left: 1rem;
+    font-weight: 200;
+    color: var(--bc-clr-text-600);
+}
+
+.notifications-section {
+    background: var(--bc-clr-dark-600);
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+}
+.notifications-title {
+    background: var(--bc-clr-dark-800);
+    border-radius: 1rem 1rem 0 0;
+    margin: -1rem -1rem 1rem;
+    padding: 1rem;
+    line-height: 1;
+}
+.notifications-category {
+    padding: .5rem;
+}
+.notifications-category:not(:last-child) {
+    border-bottom: 1px solid var(--bc-clr-dark-900);
+}
+
+@media (max-width: 600px) {
+    .appearance-colors-grid.appearance-colors-grid.appearance-colors-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 500px) {
+    :is(.appearance-themes-grid, .appearance-colors-grid) {
+        display: block;
+    }
+    .appearance-colors-grid .toggle-wrapper {
+        margin-block: .5rem;
+    }
+}
+
+.verify-identity-wrapper {
+    margin: 5rem auto;
+    text-align: center;
+}
+.verify-identity-label {
+    font-size: var(--bc-fs-700);
+    font-family: var(--bc-ff-heading);
+    font-weight: 800;
+    color: var(--bc-clr-text-100);
+}
+.verify-indentity-subtitle {
+    margin-block: .5rem;
+    line-height: 1;
+    font-size: var(--bc-fs-300);
+    color: var(--bc-clr-text-600);
+}
+.verify-identity-input {
+    margin-inline: auto;
+    width: 75%;
+}
+
+.security-wrapper {
+    display: none;
+}
+
+.security-password-strength {
+    background: var(--bc-clr-bg-input);
+    border-radius: 1rem;
+    margin-block: .5rem;
+    padding: .5rem;
+    width: 100%;
+    height: 2rem;
+}
+.security-password-strength-item {
+    background: var(--bc-clr-success-400);
+    border-radius: 1rem;
+    display: block;
+    flex: 1;
+    visibility: hidden;
+}
+.security-password-strength-item:nth-of-type(1) {
+    background: var(--bc-clr-danger-400);
+}
+.security-password-strength-item:nth-of-type(2) {
+    background: var(--bc-clr-secondary-400);
+}
+.security-password-strength-item:nth-of-type(3) {
+    background: var(--bc-clr-success-200);
+}
+.security-password-strength-item.visible {
+    visibility: visible;
+}
+
+.security-mfa-type {
+    background: var(--bc-clr-dark-600);
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+    overflow: hidden;
+}
+.security-mfa-type-header {
+    background: var(--bc-clr-dark-800);
+    padding: 1rem;
+}
+.security-mfa-type-expand {
+    display: flex;
+    font-size: var(--bc-fs-600);
+    color: var(--bc-clr-text-100);
+}
+.security-mfa-type-content {
+    padding-inline: 1rem;
+    height: 0;
+    overflow: hidden;
+    transition: .3s;
+}
+.security-mfa-type-subtitle {
+    margin-block: 0 .5rem;
+    line-height: 1;
+    font-size: var(--bc-fs-300);
+    color: var(--bc-fs-600);
+}
+.security-mfa-type-actions {
+    margin-block: 1rem;
+}
+
+.security-mfa-app {
+    padding: .5rem;
+}
+.security-mfa-app:not(:last-child) {
+    border-bottom: 1px solid var(--bc-clr-dark-100);
+}
+.security-mfa-app-icon {
+    border-radius: 1rem;
+    height: 5rem;
+}
+.security-mfa-app-name {
+    line-height: 1;
+    font-size: var(--bc-fs-500);
+    font-family: var(--bc-ff-heading);
+    font-weight: 800;
+    color: var(--bc-clr-primary-400);
+}
+.security-mfa-app-links {
+    font-size: var(--bc-fs-300);
+    color: var(--bc-clr-text-100);
+}
+.security-mfa-backupcodes {
+    padding: 1rem;
+    width: 50%;
+    text-align: center;
+    color: var(--bc-clr-text-100);
+}
+.security-mfa-backupcodes s {
+    color: var(--bc-clr-text-600);
+}
+
+.lang {
+    font-size: var(--bc-fs-600);
+}
+.lang input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    margin: 0;
+    height: 3.5rem;
+    width: 14.5rem;
+    z-index: 10000;
+}
+.lang input:checked > i {
+    filter: grayscale(0%);
+}
+.lang input:checked .lang {
+    color: var(--bc-clr-primary-400);
+}
+
+.privacy-myprofile-grid {
+    --bc-slider-width: 3.5rem;
+}
+@media (max-width: 750px) {
+    .privacy-wrapper .grid.privacy-myprofile-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media (max-width: 650px) {
+    .privacy-wrapper .grid.privacy-visible-grid {
+        display: block;
+    }
+}
+@media (max-width: 550px) {
+    .privacy-wrapper .grid.privacy-myprofile-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+#accDeleteConfirmBtn {
+    margin-inline: 0;
+    display: block;
     width: 100%;
 }
 
-.userSection .topstuff img {
-    width: 100px;
-    height: 100px;
-}
-.userSection .toptext {
-    font-family: var(--font-fam);
-}
-
-.userSection .toptext h1 {
-    font-size: 20px;
-}
-.userSection .toptext p {
-    font-size: 15px;
+.enable-mfa-app-qr {
+    background: #fff;
+    border-radius: .5rem;
+    margin: 2rem auto;
+    padding: .5rem;
+    display: block;
+    height: 10rem;
 }
 
-
-.userSection .links a {
-    text-decoration: none;
-    color: white;
-    font-family: var(--font-fam);
-    font-size: 15px;
+.accessibility-text-scale-preview {
+    font-family: var(--bc-ff-mono);
 }
 
-.userSection .personalInformation {
-    border: 1px solid rgb(250, 177, 177);
-    border-radius: 5px;
-    width: 50%;
-    margin: auto;
+.table:empty::before {
+    content: "Nothing to see here...";
+    margin-block: 1rem;
+    display: block;
+    text-align: center;
+    font-size: var(--bc-fs-600);
+    font-weight: 300;
+    color: var(--bc-clr-text-800);
 }
 
-.userSection .personalInformation p {
-    font-size: 15px;
-    font-family: var(--font-fam);
+.table .row {
+    border: 1px solid transparent;
+    padding: .5rem 1rem;
+}
+.table .row:not(:first-child, .row.active + .row) {
+    border-top: 1px solid var(--bc-clr-dark-400);
+}
+.table .row.active:is(.active, .active.active) {
+    border: 1px solid var(--bc-clr-dark-100);
+    border-radius: .5rem;
+}
+.table .row-icon {
+    border-radius: 4rem;
+    height: 3.5rem;
+    aspect-ratio: 1 / 1;
+}
+.table .row-title {
+    margin: 0;
+    line-height: 1;
+    font-family: var(--bc-ff-heading);
+    font-size: var(--bc-fs-600);
+    font-weight: 600;
+    color: var(--bc-clr-primary-400);
+}
+.table .row-subtitle {
+    margin: 0;
+    /* line-height: 1; */
+    font-size: var(--bc-fs-300);
+    font-weight: 300;
+    color: var(--bc-clr-text-100);
+}
+.table .row-action {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0 .5rem;
+    height: auto;
+    font-size: var(--bc-fs-800);
+    color: var(--bc-clr-text-800);
+    cursor: pointer;
+    transition: .3s;
+}
+.table .row-action:hover {
+    color: var(--bc-clr-secondary-400);
+}
+.table .row-action i {
+    font-size: inherit;
+    color: inherit;
 }

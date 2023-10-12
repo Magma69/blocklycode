@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--General Meta Tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="title" content="Account Settings - Blockly Code">
+    <meta name="description" content="Learning to code? Well then Blockly Code is just for you! We have a drag and drop system to make coding fun and simple!">
+    <meta name="keywords" content="Blockly, Code, Discord, Bot, Hosting, Discord Bot, Discord Hosting, Free, Coding, Lab, Blockly Account">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="author" content="Blockly Code">
+    <meta name="theme-color" content="#458fd9">
+    
+    <link rel="icon" href="https://assets.blocklycode.org/favicon.png">
+    <link rel="stylesheet" href="https://styles.blocklycode.org/global.css">
+    <script src="https://scripts.blocklycode.org/global.js" crossorigin="anonymous"></script>
+    <!-- PAGE SPECIFIC STUFF-->
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+    <title>Account Settings - Blockly Code</title>
+</head>
+
+<body class="has-sidebar">
+    <div id="pageLoader" aria-label="Loading"></div>
+    <div id="popups"></div>
+
+    <aside class="sidebar">
+        <button class="sidebar-collapse-btn" aria-label="Toggle sidebar" onclick="sidebar.toggle(this)">
+            <i class="bx bx-chevron-left" aria-hidden="true"></i>
+        </button>
+    
+        <h2 class="sidebar-title" id="nav_username"></h2>
+        <div class="nav" id="nav_items">
+            <a class="sidebar-item" id="nav_account" href="#account">Account</a>
+            <a class="sidebar-item sidebar-item-external" id="nav_profile">Profile</a>
+            <a class="sidebar-item" id="nav_notifications" href="#notifications">Configure Notifications</a>
+            <a class="sidebar-item sidebar-item-external" href="/account/notifications">Manage Notifications</a>
+            <hr>
+            <a class="sidebar-item" id="nav_security" href="#security">Security</a>
+            <a class="sidebar-item" id="nav_sessions" href="#sessions">Sessions</a>
+            <a class="sidebar-item sidebar-item-external" href="/account/warnings">Warnings</a>
+            <hr>
+            <a class="sidebar-item" id="nav_appearance" href="#appearance">Appearance</a>
+            <a class="sidebar-item" id="nav_accessibility" href="#accessibility">Accessibility</a>
+            <hr>
+            <a class="sidebar-item" id="nav_privacy" href="#privacy">Privacy</a>
+            <a class="sidebar-item" id="nav_friends" href="#friends">Friends</a>
+            <a class="sidebar-item" id="nav_blocked" href="#blocked">Blocked Users</a>
+            <hr>
+            <a class="sidebar-item" id="nav_experiments" href="#experiments">Experiments</a>
+        </div>
+        <div class="sidebar-bottom">
+            <hr>
+            <div class="flex">
+                <button class="sidebar-item sidebar-item-danger" id="nav_logout" onclick="accounts.logout(true)">Logout</button>
+                <button class="sidebar-item sidebar-item-danger" id="nav_disable_account" onclick="modals.open('disableAccountModal')">Disable</button>
+                <button class="sidebar-item sidebar-item-danger" id="nav_delete_account" onclick="modals.open('deleteAccountModal')">Delete</button>
+            </div>
+        </div>
+    </aside>
+
+    <header class="main-header">
+        <img src="https://assets.blocklycode.org/favicon.png" class="nav-brand-logo" alt="Blockly Code">
+        <button class="nav-mobile-toggle" onclick="header.toggle(this)" aria-label="Toggle primary navigation">
+            <svg class="nav-mobile-icon" viewBox="-10 -10 120 120">
+                <path d="m 20 40 h 60 a 1 1 0 0 1 0 20 h -60 a 1 1 0 0 1 0 -40 h 30 v 70"></path>
+            </svg>
+        </button>
+        <nav class="primary-nav" aria-label="Primary">
+            <ul class="nav-list" role="list">
+                <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="/challenges" class="nav-link">Challenges</a></li>
+                <li class="nav-item">
+                    <div class="dropdown" id="navResourcesDrop">
+                        <button class="nav-link nostyles" onclick="drops.open('navResourcesDrop')">Resources <i
+                                class="bx bx-chevron-down"></i></button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="https://docs.blocklycode.org">Blockly Documentation</a>
+                            <a class="dropdown-item" href="/templates">Project Templates</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <div class="dropdown" id="navCommunityDrop">
+                        <button class="nav-link nostyles" onclick="drops.open('navCommunityDrop')">Community <i
+                                class="bx bx-chevron-down"></i></button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/discord">Discord Server</a>
+                            <a class="dropdown-item" href="https://forums.blcocklycode.org">Blockly Forums</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <div class="nav-account-buttons" id="navAccount">
+            <a href="/login" class="btn clr-primary">Login</a>
+            <a href="/signup" class="btn clr-secondary filled darken">Sign In</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2 id="error"></h2>
+        <div id="contentLoader" aria-label="Loading"></div>
+        <div class="content-wrapper">
+            <h2 class="section-title" id="account">Account Details</h2>
+            <section class="section-wrapper account-wrapper" id="accountContent">
+                <div class="grid col2 p25-75 gap-100">
+                    <div class="col">
+                        <p class="label">Username</p>
+                    </div>
+                    <div class="col">
+                        <div class="input-wrapper input-styles">
+                            <p id="accountUsernamePreview" class="input"></p>
+                            <button class="account-expand-button | nostyles pointer push-right" aria-label="More details" onclick="expandAccountSection('username')">
+                                <i class="bx bx-dots-vertical-rounded"></i>
+                            </button>
+                        </div>
+                        <div class="account-expand-content" data-field="username">
+                            <p class="account-expand-notallowed">You can't change your username. <a href="https://docs.blocklycode.org/accounts/usernames">Learn More</a></p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <p class="label">Email</p>
+                    </div>
+                    <div class="col">
+                        <div class="input-wrapper input-styles">
+                            <p id="accountEmailPreview" class="input"></p>
+                            <button class="account-expand-button | nostyles pointer push-right" aria-label="More details" onclick="expandAccountSection('email')">
+                                <i class="bx bx-dots-vertical-rounded"></i>
+                            </button>
+                        </div>
+                        <div class="account-expand-content" data-field="email">
+                            <div id="accountEmailExpandUnverified" style="display: none">
+                                <p class="account-expand-notallowed">
+                                    You can't change your email because your current one isn't verified.
+                                    <br>
+                                    Please follow the steps in the verification email. <button class="nostyles" onclick="resendVerificationEmail()">Resend Email</button>
+                                    <br>
+                                    Lost access to your email? <a href="https://support.blocklycode.org">Contact Support</a>
+                                </p>
+                            </div>
+                            <div id="accountEmailExpandBrand" style="display: none">
+                                <p class="account-expand-notallowed">You can't change this account's email because it's a Brand Account.</p>
+                            </div>
+                            <div id="accountEmailExpandUpdate" style="display: none">
+                                <div class="flex">
+                                    <label for="accountEmailExpandUpdateInput" class="label">Update Email</label>
+                                    <p class="account-expand-error | save-error push-right" id="accountEmailUpdateError"></p>
+                                </div>
+                                <div class="input-wrapper input-styles">
+                                    <input type="email" class="input" id="accountEmailExpandUpdateInput" placeholder="example@example.com" oninput="inputs.validate(this)">
+                                    <button class="account-expand-button | btn nostyles pointer push-right" onclick="saveAccountEmail(this)" aria-label="Verify email">
+                                        <div class="loader" aria-hidden="true"></div>
+                                        <span><i class="bx bx-right-arrow-alt" aria-hidden="true"></i></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="accountEmailExpandVerify" style="display: none">
+                                <p class="account-expand-notallowed">
+                                    Please verify your email, <b id="accountEmailExpandVerifyPreview"></b> to apply your changes.
+                                    <br>
+                                    Incorrect Email Address? <button class="nostyles" onclick="editAccountEmail()">Change it</button>
+                                    <br>
+                                    <button class="nostyles" onclick="resendAccountEmail()">Resend Verification Email</button>
+                                </p>
+                                <div class="flex">
+                                    <label for="accountEmailExpandVerifyInput" class="label">Verification Code</label>
+                                    <p class="account-expand-error | save-error push-right" id="accountEmailVerifyError"></p>
+                                </div>
+                                <div class="input-wrapper input-styles">
+                                    <input type="text" inputmode="numeric" class="input" id="accountEmailExpandVerifyInput" placeholder="123 456" oninput="inputs.validate(this)">
+                                    <button class="account-expand-button | btn nostyles pointer push-right" onclick="verifyAccountEmail(this)" aria-label="Verify email">
+                                        <div class="loader" aria-hidden="true"></div>
+                                        <span><i class="bx bx-right-arrow-alt" aria-hidden="true"></i></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col" id="accountPhoneLabel">
+                        <p class="label alphaFeature">Phone</p>
+                    </div>
+                    <div class="col" id="accountPhone">
+                        <div class="input-wrapper input-styles">
+                            <p id="accountPhonePreview" class="input"></p>
+                            <button class="account-expand-button | nostyles pointer push-right" aria-label="More details" onclick="expandAccountSection('phone')">
+                                <i class="bx bx-dots-vertical-rounded"></i>
+                            </button>
+                        </div>
+                        <div class="account-expand-content" data-field="phone">
+                            <div id="accountPhoneExpandBrand" style="display: none">
+                                <p class="account-expand-notallowed">You can't change this account's phone number because it's a Brand Account.</p>
+                            </div>
+                            <div id="accountPhoneExpandUpdate" style="display: none">
+                                <div class="flex">
+                                    <label for="accountPhoneExpandUpdateInput" class="label">Update Phone Number</label>
+                                    <p class="account-expand-error | save-error push-right" id="accountPhoneUpdateError"></p>
+                                </div>
+                                <div class="input-wrapper input-styles">
+                                    <div class="dropdown" id="accountPhoneExpandUpdateDrop">
+                                        <button class="nostyles account-expand-update-phone-country" id="accountPhoneExpandUpdateCountry" onclick="drops.open('accountPhoneExpandUpdateDrop')" data-code="1">+ 1</button>
+                                        <div class="dropdown-menu" data-dropdown="valid-click">
+                                            <input type="search" class="dropdown-input input" oninput="drops.filter(this, this.parentElement.children[1])" aria-label="Search countries" placeholder="Search Countries" data-dropdown="valid-click">
+                                            <div id="accountPhoneExpandUpdateList"></div>
+                                        </div>
+                                    </div>
+                                    <input type="tel" class="input" id="accountPhoneExpandUpdateInput" placeholder="000 0000 0000" oninput="inputs.validate(this)">
+                                    <button class="account-expand-button | btn nostyles pointer push-right" onclick="saveAccountPhone(this)" aria-label="Save phone number">
+                                        <div class="loader" aria-hidden="true"></div>
+                                        <span><i class="bx bx-right-arrow-alt" aria-hidden="true"></i></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="accountPhoneExpandVerify" style="display: none">
+                                <p class="account-expand-notallowed">
+                                    Please verify your phone number, <b id="accountPhoneExpandVerifyPreview"></b> to apply your changes.
+                                    <br>
+                                    Incorrect phone number? <button class="nostyles" onclick="editAccountPhone()">Change it</button>
+                                    <br>
+                                    <button class="nostyles" onclick="resendAccountPhone()">Resend Verification Text</button>
+                                </p>
+                                <div class="flex">
+                                    <label for="accountPhoneExpandVerifyInput" class="label">Verification Code</label>
+                                    <p class="account-expand-error | save-error push-right" id="accountPhoneVerifyError"></p>
+                                </div>
+                                <div class="input-wrapper input-styles">
+                                    <input type="text" inputmode="numeric" class="input" id="accountPhoneExpandVerifyInput" placeholder="123 456" oninput="inputs.validate(this)">
+                                    <button class="account-expand-button | btn nostyles pointer push-right" onclick="verifyAccountPhone(this)" aria-label="Verify phone number">
+                                        <div class="loader" aria-hidden="true"></div>
+                                        <span><i class="bx bx-right-arrow-alt" aria-hidden="true"></i></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <br>
+            <h2 class="section-title betaFeature" id="notifications">Notifications</h2>
+            <section class="section-wrapper">
+                <div class="notifications-section">
+                    <h3 class="notifications-title">Account</h3>
+                    <div class="notifications-category">
+                        <div>
+                            <h4 class="notifications-category-title">Profile Updates</h4>
+                            <p class="notifications-category-details">Recieve notifications when your Blockly Profile is updated</p>
+                        </div>
+                        <div class="flex gap-600">
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsAccountProfileUpdateInApp">
+                                </label>
+                                <label class="toggle-label">In-App</label>
+                            </div>
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsAccountProfileUpdateEmail">
+                                </label>
+                                <label class="toggle-label">Email</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notifications-category">
+                        <div>
+                            <h4 class="notifications-category-title">Account Updates</h4>
+                            <p class="notifications-category-details">Recieve notifications when your Blockly Account settings are changed</p>
+                        </div>
+                        <div class="flex gap-600">
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsAccountAccountUpdateInApp">
+                                </label>
+                                <label class="toggle-label">In-App</label>
+                            </div>
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsAccountAccountUpdateEmail">
+                                </label>
+                                <label class="toggle-label">Email</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notifications-category">
+                        <div>
+                            <h4 class="notifications-category-title">New Logins</h4>
+                            <p class="notifications-category-details">Recieve notifications when someone logs in to your account</p>
+                        </div>
+                        <div class="flex gap-600">
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsAccountLoginInApp">
+                                </label>
+                                <label class="toggle-label">In-App</label>
+                            </div>
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsAccountLoginEmail">
+                                </label>
+                                <label class="toggle-label">Email</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notifications-category">
+                        <div>
+                            <h4 class="notifications-category-title">Application Updates</h4>
+                            <p class="notifications-category-details">Recieve notifications when your Applications are accepted or denied</p>
+                        </div>
+                        <div class="flex gap-600">
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsAccountApplicationUpdateInApp">
+                                </label>
+                                <label class="toggle-label">In-App</label>
+                            </div>
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsAccountApplicationUpdateEmail">
+                                </label>
+                                <label class="toggle-label">Email</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="notifications-section">
+                    <h3 class="notifications-title">Friends</h3>
+                    <div class="notifications-category">
+                        <div>
+                            <h4 class="notifications-category-title">Incoming Requests</h4>
+                            <p class="notifications-category-details">Recieve notifications when you recieve a Friend Request</p>
+                        </div>
+                        <div class="flex gap-600">
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsFriendsIncomingRequestInApp">
+                                </label>
+                                <label class="toggle-label">In-App</label>
+                            </div>
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsFriendsIncomingRequestEmail">
+                                </label>
+                                <label class="toggle-label">Email</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notifications-category">
+                        <div>
+                            <h4 class="notifications-category-title">Accepted Requests</h4>
+                            <p class="notifications-category-details">Recieve notifications when a Friend Request you sent is accepted</p>
+                        </div>
+                        <div class="flex gap-600">
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsFriendsAcceptedRequestInApp">
+                                </label>
+                                <label class="toggle-label">In-App</label>
+                            </div>
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsFriendsAcceptedRequestEmail">
+                                </label>
+                                <label class="toggle-label">Email</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notifications-category">
+                        <div>
+                            <h4 class="notifications-category-title">Denied Requests</h4>
+                            <p class="notifications-category-details">Recieve notifications when a Friend Request you sent is denied</p>
+                        </div>
+                        <div class="flex gap-600">
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsFriendsDeniedRequestInApp">
+                                </label>
+                                <label class="toggle-label">In-App</label>
+                            </div>
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsFriendsDeniedRequestEmail">
+                                </label>
+                                <label class="toggle-label">Email</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="notifications-section">
+                    <h3 class="notifications-title">Feedback Posts</h3>
+                    <div class="notifications-category">
+                        <div>
+                            <h4 class="notifications-category-title">Comments</h4>
+                            <p class="notifications-category-details">Recieve notifications when a user comments on your Feedback Posts, Ideas or Bug Reports</p>
+                        </div>
+                        <div class="flex gap-600">
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsFeedbackCommentsInApp">
+                                </label>
+                                <label class="toggle-label">In-App</label>
+                            </div>
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsFeedbackCommentsEmail">
+                                </label>
+                                <label class="toggle-label ">Email</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notifications-category">
+                        <div>
+                            <h4 class="notifications-category-title">Upvotes</h4>
+                            <p class="notifications-category-details">Recieve notifications when a user upvotes your Feedback Posts, Ideas or Bug Reports</p>
+                        </div>
+                        <div class="flex gap-600">
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsFeedbackUpvotesInApp">
+                                </label>
+                                <label class="toggle-label">In-App</label>
+                            </div>
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsFeedbackUpvotesEmail">
+                                </label>
+                                <label class="toggle-label ">Email</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notifications-category">
+                        <div>
+                            <h4 class="notifications-category-title">Downvotes</h4>
+                            <p class="notifications-category-details">Recieve notifications when a user downvotes your Feedback Posts, Ideas or Bug Reports</p>
+                        </div>
+                        <div class="flex gap-600">
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsFeedbackDownvotesInApp">
+                                </label>
+                                <label class="toggle-label">In-App</label>
+                            </div>
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsFeedbackDownvotesEmail">
+                                </label>
+                                <label class="toggle-label ">Email</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="notifications-section">
+                    <h3 class="notifications-title">Projects</h3>
+                    <div class="notifications-category">
+                        <div>
+                            <h4 class="notifications-category-title">Shared</h4>
+                            <p class="notifications-category-details">Recieve notifications when someone adds you to a project</p>
+                        </div>
+                        <div class="flex gap-600">
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsProjectsSharedInApp">
+                                </label>
+                                <label class="toggle-label">In-App</label>
+                            </div>
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsProjectsSharedEmail">
+                                </label>
+                                <label class="toggle-label">Email</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notifications-category" style="display: none">
+                        <div>
+                            <h4 class="notifications-category-title | alphaFeature">Activity</h4>
+                            <p class="notifications-category-details">Recieve notifications when someone is active in a project you are a part of</p>
+                        </div>
+                        <div class="flex gap-600">
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsProjectsActivityInApp">
+                                </label>
+                                <label class="toggle-label">In-App</label>
+                            </div>
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsProjectsActivityEmail">
+                                </label>
+                                <label class="toggle-label">Email</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="notifications-section">
+                    <h3 class="notifications-title">Templates</h3>
+                    <div class="notifications-category">
+                        <div>
+                            <h4 class="notifications-category-title">Reviews</h4>
+                            <p class="notifications-category-details">Recieve notifications when a user leaves a review on one of your templates</p>
+                        </div>
+                        <div class="flex gap-600">
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsTemplatesReviewsInApp">
+                                </label>
+                                <label class="toggle-label">In-App</label>
+                            </div>
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsTemplatesReviewsEmail">
+                                </label>
+                                <label class="toggle-label">Email</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notifications-category" style="display: none">
+                        <div>
+                            <h4 class="notifications-category-title | alphaFeature">Issues</h4>
+                            <p class="notifications-category-details">Recieve notifications when a user reports a issue on one of your templates</p>
+                        </div>
+                        <div class="flex gap-600">
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsTemplatesIssuesInApp">
+                                </label>
+                                <label class="toggle-label">In-App</label>
+                            </div>
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsTemplatesIssuesEmail">
+                                </label>
+                                <label class="toggle-label">Email</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="notifications-section">
+                    <h3 class="notifications-title">Developers</h3>
+                    <div class="notifications-category">
+                        <div>
+                            <h4 class="notifications-category-title">Team Invites</h4>
+                            <p class="notifications-category-details">Recieve notifications when someone adds you to a team</p>
+                        </div>
+                        <div class="flex gap-600">
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsDevelopersTeamsInviteInApp">
+                                </label>
+                                <label class="toggle-label">In-App</label>
+                            </div>
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsDevelopersTeamsInviteEmail">
+                                </label>
+                                <label class="toggle-label">Email</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notifications-category">
+                        <div>
+                            <h4 class="notifications-category-title">Team Role Updates</h4>
+                            <p class="notifications-category-details">Recieve notifications when your role in a team changes</p>
+                        </div>
+                        <div class="flex gap-600">
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsDevelopersTeamsUpdateInApp">
+                                </label>
+                                <label class="toggle-label">In-App</label>
+                            </div>
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsDevelopersTeamsUpdateEmail">
+                                </label>
+                                <label class="toggle-label">Email</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notifications-category">
+                        <div>
+                            <h4 class="notifications-category-title">Team Transfers</h4>
+                            <p class="notifications-category-details">Recieve notifications when someone transfers ownership of a team to you</p>
+                        </div>
+                        <div class="flex gap-600">
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsDevelopersTeamsOwnerInApp">
+                                </label>
+                                <label class="toggle-label">In-App</label>
+                            </div>
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsDevelopersTeamsOwnerEmail">
+                                </label>
+                                <label class="toggle-label">Email</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notifications-category">
+                        <div>
+                            <h4 class="notifications-category-title">New Blocklets</h4>
+                            <p class="notifications-category-details">Recieve notifications when someone transfers or creates a Blocklet in a team you are part of or gives you ownership of a Blocklet</p>
+                        </div>
+                        <div class="flex gap-600">
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsDevelopersBlockletsInviteInApp">
+                                </label>
+                                <label class="toggle-label">In-App</label>
+                            </div>
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsDevelopersBlockletsInviteEmail">
+                                </label>
+                                <label class="toggle-label ">Email</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notifications-category">
+                        <div>
+                            <h4 class="notifications-category-title">Blocklet Updates</h4>
+                            <p class="notifications-category-details">Recieve notifications when someone resets OAuth2 details for a Blocklet you manage</p>
+                        </div>
+                        <div class="flex gap-600">
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsDevelopersBlockletsUpdateInApp">
+                                </label>
+                                <label class="toggle-label">In-App</label>
+                            </div>
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsDevelopersBlockletsUpdateEmail">
+                                </label>
+                                <label class="toggle-label">Email</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="notifications-section">
+                    <div class="notifications-category">
+                        <div>
+                            <h4 class="notifications-category-title | betaFeature">Newsletter</h4>
+                            <p class="notifications-category-details">Recieve our (mostly) weekly Newsletter</p>
+                        </div>
+                        <div class="flex gap-600">
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsOtherNewsletterEmail">
+                                </label>
+                                <label class="toggle-label">Email</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notifications-category">
+                        <div>
+                            <h4 class="notifications-category-title">Blockly Updates</h4>
+                            <p class="notifications-category-details">Recieve notifications when we release a new version of Blockly Code</p>
+                        </div>
+                        <div class="flex gap-600">
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsOtherBlocklyUpdateInApp">
+                                </label>
+                                <label class="toggle-label">In-App</label>
+                            </div>
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsOtherBlocklyUpdateEmail">
+                                </label>
+                                <label class="toggle-label">Email</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notifications-category" style="display: none">
+                        <div>
+                            <h4 class="notifications-category-title | alphaFeature">Inactivity</h4>
+                            <p class="notifications-category-details">Recieve an email if you haven't been used Blocly Code in a while</p>
+                        </div>
+                        <div class="flex gap-600">
+                            <div class="toggle-wrapper">
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsOtherInactiveEmail">
+                                </label>
+                                <label class="toggle-label">Email</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="save-wrapper | flex v-center gap-100">
+                    <p class="save-errror" id="notificationsError"></p>
+                    <button class="btn textonly push-right" onclick="loadNotifications(this)">Reset</button>
+                    <button class="btn clr-success filled darken no-mg" onclick="saveNotifications(this)">
+                        <div class="loader"></div>
+                        <span>Save Changes</span>
+                    </button>
+                </div>
+            </section>
+            <br>
+            <h2 class="section-title" id="security">Security</h2>
+            <section class="section-wrapper">
+                <div class="verify-identity-wrapper" id="securityVerify">
+                    <label for="securityVerifyInput" class="verify-identity-label">Verify its You</label>
+                    <p class="verify-indentity-subtitle">Please enter your password so we can know its really you updating your senstive settings</p>
+                    <div class="verify-identity-input | input-wrapper input-styles">
+                        <input type="password" class="input" id="securityVerifyInput" oninput="inputs.validate(this)" placeholder="Password">
+                        <button class="account-expand-button | btn nostyles pointer push-right" onclick="securityVerifyIdentity(this)" aria-label="Submit">
+                            <div class="loader" aria-hidden="true"></div>
+                            <span><i class="bx bx-right-arrow-alt" aria-hidden="true"></i></span>
+                        </button>
+                    </div>
+                    <p class="account-save-error save-error" id="securityVerifyError"></p>
+                </div>
+                <div class="security-wrapper" id="securityContent">
+                    <h3>Change Password</h3>
+                    <div class="grid col2 p25-75 gap-100">
+                        <div class="col">
+                            <label class="label" for="securityPasswordNewInput">New Password</label>
+                        </div>
+                        <div class="col">
+                            <div class="input-wrapper">
+                                <input type="password" class="input" id="securityPasswordNewInput" oninput="previewPasswordSecurity(this)">
+                                <button class="input-vis-toggle | pointer" onclick="inputs.passwordToggle(this.previousElementSibling.id)"></button>
+                            </div>
+                            <div class="security-password-strength | flex gap-050" id="securityPasswordNewStrength">
+                                <div class="security-password-strength-item"></div>
+                                <div class="security-password-strength-item"></div>
+                                <div class="security-password-strength-item"></div>
+                                <div class="security-password-strength-item"></div>
+                                <div class="security-password-strength-item"></div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label class="label" for="securityPasswordConfirmInput">Confirm Password</label>
+                        </div>
+                        <div class="col">
+                            <div class="input-wrapper">
+                                <input type="password" class="input" id="securityPasswordConfirmInput" oninput="inputs.validate(this)">
+                                <button class="input-vis-toggle | pointer" onclick="inputs.passwordToggle(this.previousElementSibling.id)"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="save-wrapper | flex v-center gap-100">
+                        <p class="save-error" id="securityPasswordError"></p>
+                        <!-- <button class="btn textonly push-right" onclick="loadSecurity(this)">Reset</button> -->
+                        <button class="btn clr-success filled darken push-right no-mg" onclick="saveSecurityPassword(this)">
+                            <div class="loader"></div>
+                            <span>Save Changes</span>
+                        </button>
+                    </div>
+                    <h3>Multi-Factor Authentication</h3>
+                    <div class="security-mfa-type">
+                        <div class="security-mfa-type-header | flex v-center gap-200">
+                            <label for="securityMfaAppEnabled"><h4 class="betaFeature">App Authentication</h4></label>
+                            <label class="toggle | push-right">
+                                <input type="checkbox" id="securityMfaAppEnabled" onclick="securityMfaAppToggle(this)">
+                            </label>
+                            <button class="security-mfa-type-expand | nostyles pointer" onclick="securityMfaExpand(this)" aria-label="More details" aria-expanded="false">
+                                <i class="bx bx-dots-vertical-rounded" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="security-mfa-type-content">
+                            <p>Use a TOTP authenticator app to get a verification code. It even works offline!</p>
+                            <h5>Supported Authenticator Apps</h5>
+                            <p class="security-mfa-type-subtitle">(others may be work, these have been tested)</p>
+                            <div>
+                                <div class="security-mfa-app | flex v-center gap-300">
+                                    <img src="https://assets.blocklycode.org/mfaapps/google-authenticator.png" class="security-mfa-app-icon" alt="">
+                                    <div>
+                                        <p class="security-mfa-app-name">Google Authenticator</p>
+                                        <p class="security-mfa-app-links">
+                                            <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">Play Store</a>
+                                             • 
+                                            <a href="https://apps.apple.com/us/app/google-authenticator/id388497605">App Store</a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="security-mfa-app | flex v-center gap-300">
+                                    <img src="https://assets.blocklycode.org/mfaapps/microsoft-authenticator.png" class="security-mfa-app-icon" alt="">
+                                    <div>
+                                        <p class="security-mfa-app-name">Microsoft Authenticator</p>
+                                        <p class="security-mfa-app-links">
+                                            <a href="https://play.google.com/store/apps/details?id=com.azure.authenticator">Play Store</a>
+                                             • 
+                                            <a href="https://apps.apple.com/app/microsoft-authenticator/id983156458">App Store</a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="security-mfa-app | flex v-center gap-300">
+                                    <img src="https://assets.blocklycode.org/mfaapps/authy.png" class="security-mfa-app-icon" alt="">
+                                    <div>
+                                        <p class="security-mfa-app-name">Twilio Authy</p>
+                                        <p class="security-mfa-app-links">
+                                            <a href="https://play.google.com/store/apps/details?id=com.authy.authy">Play Store</a>
+                                             • 
+                                            <a href="https://apps.apple.com/gb/app/twilio-authy/id494168017">App Store</a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="security-mfa-app | flex v-center gap-300">
+                                    <img src="https://assets.blocklycode.org/mfaapps/dashlane-authenticator.png" class="security-mfa-app-icon" alt="">
+                                    <div>
+                                        <p class="security-mfa-app-name">Dashlane Authenticator</p>
+                                        <p class="security-mfa-app-links">
+                                            <a href="https://play.google.com/store/apps/details?id=com.dashlane.authenticator">Play Store</a>
+                                            • 
+                                            <a href="https://apps.apple.com/us/app/dashlane-authenticator/id1582978196">App Store</a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="security-mfa-app | flex v-center gap-300">
+                                    <img src="https://assets.blocklycode.org/mfaapps/lastpass-authenticator.png" class="security-mfa-app-icon" alt="">
+                                    <div>
+                                        <p class="security-mfa-app-name">LastPass Authenticator</p>
+                                        <p class="security-mfa-app-links">
+                                            <a href="https://play.google.com/store/apps/details?id=com.lastpass.authenticator">Play Store</a>
+                                            • 
+                                            <a href="https://apps.apple.com/us/app/lastpass-authenticator/id1079110004">App Store</a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="security-mfa-app | flex v-center gap-300">
+                                    <img src="https://assets.blocklycode.org/mfaapps/totp-authenticator.png" class="security-mfa-app-icon" alt="">
+                                    <div>
+                                        <p class="security-mfa-app-name">TOTP Authenticator</p>
+                                        <p class="security-mfa-app-links">
+                                            <a href="https://play.google.com/store/apps/details?id=com.authenticator.authservice2">Play Store</a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="security-mfa-app | flex v-center gap-300">
+                                    <img src="https://assets.blocklycode.org/mfaapps/2fas-auth.png" class="security-mfa-app-icon" alt="">
+                                    <div>
+                                        <p class="security-mfa-app-name">2FA Authenticator (2FAS)</p>
+                                        <p class="security-mfa-app-links">
+                                            <a href="https://play.google.com/store/apps/details?id=com.twofasapp">Play Store</a>
+                                            • 
+                                            <a href="https://apps.apple.com/us/app/2fa-authenticator-2fas/id1217793794">App Store</a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="security-mfa-app | flex v-center gap-300">
+                                    <img src="https://assets.blocklycode.org/mfaapps/pro-authenticator.png" class="security-mfa-app-icon" alt="">
+                                    <div>
+                                        <p class="security-mfa-app-name">Authenticator Pro</p>
+                                        <p class="security-mfa-app-links">
+                                            <a href="https://play.google.com/store/apps/details?id=me.jmh.authenticatorpro">Play Store</a>
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="security-mfa-type-actions | flex gap-200">
+                                <button class="btn clr-primary filled darken no-mg" onclick="securityMfaAppAdd(this)" id="securityMfaAppAdditional">
+                                    <div class="loader" aria-hidden="true"></div>
+                                    <span>Add Authenticator App</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="security-mfa-type" id="securityMfaSms">
+                        <div class="security-mfa-type-header | flex v-center gap-200">
+                            <label for="securityMfaSmsEnabled"><h4 class="alphaFeature">SMS Authentication</h4></label>
+                            <label class="toggle | push-right">
+                                <input type="checkbox" id="securityMfaSmsEnabled" onclick="securityMfaSmsToggle(this)">
+                            </label>
+                            <button class="security-mfa-type-expand | nostyles pointer" onclick="securityMfaExpand(this)" aria-label="More details" aria-expanded="false">
+                                <i class="bx bx-dots-vertical-rounded" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="security-mfa-type-content">
+                            <p class="alert" data-alert-style="danger" id="securityMfaSmsNoPhone" style="display: none;">You must have a verified Phone Number to use SMS Authentication!</p>
+                            <p>Recieve a SMS message with a one time code to login.</p>
+                            <p id="securityMfaSmsPhone">We will send codes to <b id="securityMfaSmsPhonePreview"></b></p>
+                            <div class="security-mfa-type-actions | flex gap-200">
+                                <button class="btn clr-primary no-mg" onclick="securityMfaSmsExample(this)" id="securityMfaSmsExample">
+                                    <div class="loader" aria-hidden="true"></div>
+                                    <span>Send Example</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="security-mfa-type">
+                        <div class="security-mfa-type-header | flex v-center gap-050">
+                            <h4>Backup Codes</h4>
+                            <button class="security-mfa-type-expand | push-right nostyles pointer" onclick="securityMfaExpand(this)" aria-label="More details" aria-expanded="false">
+                                <i class="bx bx-dots-vertical-rounded" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="security-mfa-type-content">
+                            <p class="alert" data-alert-style="danger" id="securityMfaBackupDisabled" style="display: none;">To generate backup codes, you need to have at least 1 2FA method enabled!</p>
+                            <p>Backup Codes allow you to log in if other 2fa methods aren't available.</p>
+                            <p>Each backup code can only be used once. Keep them secure & secret as an attacker may be able to use a backup code to bypass 2fa.</p>
+                            <h5>Backup Codes</h5>
+                            <div class="security-mfa-backupcodes | grid col2 even gap-500" id="securityMfaBackupCodes"></div>
+                            <div class="security-mfa-type-actions | flex gap-200" id="securityMfaBackupActions">
+                                <a class="btn clr-primary no-mg" id="securityMfaBackupDownload" download="blockly_backup_codes.txt">Download Codes</a>
+                                <button class="btn clr-danger no-mg" onclick="securityMfaBackupReset(this)">
+                                    <div class="loader" aria-hidden="true"></div>
+                                    <span>Regenerate Codes</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <br>
+            <h2 class="section-title" id="sessions">Sessions</h2>
+            <section class="section-wrapper session-wrapper">
+                <div class="table" id="sessionListTable" role="table"></div>
+            </section>
+            <br>
+            <h2 class="section-title" id="appearance">Appearance</h2>
+            <section class="section-wrapper">
+                <div class="appearance-themes-grid | grid col2 even gap-100">
+                    <div class="col">
+                        <h3 class="title">Website Theme</h3>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" id="appearanceThemeWebsiteSync" name="appearanceThemeWebsite" value="sync" onclick="previewThemeWebsite(this.value)">
+                            </label>
+                            <label class="toggle-label">Sync with Browser</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" id="appearanceThemeWebsiteClassic" name="appearanceThemeWebsite" value="classic" onclick="previewThemeWebsite(this.value)">
+                            </label>
+                            <label class="toggle-label">Classic Theme</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" id="appearanceThemeWebsiteDark" name="appearanceThemeWebsite" value="dark" onclick="previewThemeWebsite(this.value)">
+                            </label>
+                            <label class="toggle-label">Dark Theme</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" id="appearanceThemeWebsiteLight" name="appearanceThemeWebsite" value="light" onclick="previewThemeWebsite(this.value)">
+                            </label>
+                            <label class="toggle-label | betaFeature">Light Theme</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" id="appearanceThemeWebsiteAmoled" name="appearanceThemeWebsite" value="amoled" onclick="previewThemeWebsite(this.value)">
+                            </label>
+                            <label class="toggle-label">Amoled Theme</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" id="appearanceThemeWebsiteContrast" name="appearanceThemeWebsite" value="contrast" onclick="previewThemeWebsite(this.value)">
+                            </label>
+                            <label class="toggle-label | betaFeature">High Contrast</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <h3 class="title">Lab Theme</h3>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" id="appearanceThemeLabSync" name="appearanceThemeLab" value="sync">
+                            </label>
+                            <label class="toggle-label">Sync with Browser</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" id="appearanceThemeLabClassic" name="appearanceThemeLab" value="classic">
+                            </label>
+                            <label class="toggle-label">Classic Theme</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" id="appearanceThemeLabDark" name="appearanceThemeLab" value="dark">
+                            </label>
+                            <label class="toggle-label">Dark Theme</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" id="appearanceThemeLabLight" name="appearanceThemeLab" value="light">
+                            </label>
+                            <label class="toggle-label | betaFeature">Light Theme</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" id="appearanceThemeLabAmoled" name="appearanceThemeLab" value="amoled">
+                            </label>
+                            <label class="toggle-label">Amoled Theme</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" id="appearanceThemeLabContrast" name="appearanceThemeLab" value="contrast">
+                            </label>
+                            <label class="toggle-label | betaFeature">High Contrast</label>
+                        </div>
+                    </div>
+                </div>
+                <h3 class="title">Theme Color</h3>
+                <div class="appearance-colors-grid | grid col4 even gap-050">
+                    <div class="toggle-wrapper">
+                        <label class="toggle">
+                            <input type="radio" id="appearanceThemeAccentNone" name="appearanceThemeAccent" value="none" onclick="previewThemeAccent(this.value)">
+                        </label>
+                        <label class="toggle-label">No Color</label>
+                    </div>
+                    <div class="toggle-wrapper">
+                        <label class="toggle">
+                            <input type="radio" id="appearanceThemeAccent0" name="appearanceThemeAccent" value="000" onclick="previewThemeAccent(this.value)">
+                        </label>
+                        <label class="toggle-label">Red</label>
+                    </div>
+                    <div class="toggle-wrapper">
+                        <label class="toggle">
+                            <input type="radio" id="appearanceThemeAccent25" name="appearanceThemeAccent" value="025" onclick="previewThemeAccent(this.value)">
+                        </label>
+                        <label class="toggle-label">Orange</label>
+                    </div>
+                    <div class="toggle-wrapper">
+                        <label class="toggle">
+                            <input type="radio" id="appearanceThemeAccent50" name="appearanceThemeAccent" value="050" onclick="previewThemeAccent(this.value)">
+                        </label>
+                        <label class="toggle-label">Yellow</label>
+                    </div>
+                    <div class="toggle-wrapper">
+                        <label class="toggle">
+                            <input type="radio" id="appearanceThemeAccent100" name="appearanceThemeAccent" value="100" onclick="previewThemeAccent(this.value)">
+                        </label>
+                        <label class="toggle-label">Forest</label>
+                    </div>
+                    <div class="toggle-wrapper">
+                        <label class="toggle">
+                            <input type="radio" id="appearanceThemeAccent150" name="appearanceThemeAccent" value="150" onclick="previewThemeAccent(this.value)">
+                        </label>
+                        <label class="toggle-label">Green</label>
+                    </div>
+                    <div class="toggle-wrapper">
+                        <label class="toggle">
+                            <input type="radio" id="appearanceThemeAccent225" name="appearanceThemeAccent" value="225" onclick="previewThemeAccent(this.value)">
+                        </label>
+                        <label class="toggle-label">Blue</label>
+                    </div>
+                    <div class="toggle-wrapper">
+                        <label class="toggle">
+                            <input type="radio" id="appearanceThemeAccent200" name="appearanceThemeAccent" value="200" onclick="previewThemeAccent(this.value)">
+                        </label>
+                        <label class="toggle-label">Cyan</label>
+                    </div>
+                    <div class="toggle-wrapper">
+                        <label class="toggle">
+                            <input type="radio" id="appearanceThemeAccent250" name="appearanceThemeAccent" value="250" onclick="previewThemeAccent(this.value)">
+                        </label>
+                        <label class="toggle-label">Bluey Purple</label>
+                    </div>
+                    <div class="toggle-wrapper">
+                        <label class="toggle">
+                            <input type="radio" id="appearanceThemeAccent300" name="appearanceThemeAccent" value="300" onclick="previewThemeAccent(this.value)">
+                        </label>
+                        <label class="toggle-label">Purple</label>
+                    </div>
+                </div>
+                <h3 class="title">Lab Controls</h3>
+                <div class="toggle-wrapper">
+                    <label class="toggle">
+                        <input type="radio" id="appearanceControlsLabButtons" name="appearanceControlsLab" value="buttons">
+                    </label>
+                    <label class="toggle-label">Buttons</label>
+                </div>
+                <div class="toggle-wrapper">
+                    <label class="toggle">
+                        <input type="radio" id="appearanceControlsLabCommands" name="appearanceControlsLab" value="commands">
+                    </label>
+                    <label class="toggle-label | betaFeature">CLI / Commands</label>
+                </div>
+                <div class="save-wrapper | flex v-center gap-100">
+                    <p class="save-errror" id="appearanceError"></p>
+                    <button class="btn textonly push-right" onclick="loadAppearance(this)">Reset</button>
+                    <button class="btn clr-success filled darken" onclick="saveAppearance(this)">
+                        <div class="loader"></div>
+                        <span>Save Changes</span>
+                    </button>
+                </div>
+            </section>
+            <br>
+            <h2 class="section-title" id="accessibility">Accessibility</h2>
+            <section class="section-wrapper">
+                <h3 class="title betaFeature">Text Scaling</h3>
+                <div class="range-wrapper">
+                    <p class="accessibility-text-scale-preview |  range-preview" id="accessibilityTextScalePreview"></p>
+                    <input type="range" class="range" id="accessibilityTextScaleInput" min="50" max="150" oninput="previewTextScale(this.value)">
+                    <button class="btn textonly no-mg" onclick="previewTextScale(100)">Default</button>
+                </div>
+                <h3 class="title alphaFeature">Motion & Animations</h3>
+                <div class="toggle-wrapper">
+                    <label class="toggle">
+                        <input type="checkbox" id="accessibilityAnimateAvatar">
+                    </label>
+                    <label class="toggle-label">Animate User Avatars</label>
+                </div>
+                <div class="toggle-wrapper">
+                    <label class="toggle">
+                        <input type="checkbox" id="accessibilityAnimatePopups">
+                    </label>
+                    <label class="toggle-label">Animate Popups</label>
+                </div>
+                <div class="toggle-wrapper">
+                    <label class="toggle">
+                        <input type="checkbox" id="accessibilityAnimateLoaders">
+                    </label>
+                    <label class="toggle-label">Animate Loaders</label>
+                </div>
+                <div class="toggle-wrapper">
+                    <label class="toggle">
+                        <input type="checkbox" id="accessibilityAnimateHover">
+                    </label>
+                    <label class="toggle-label">Hover Events</label>
+                </div>
+                <div class="toggle-wrapper">
+                    <label class="toggle">
+                        <input type="checkbox" id="accessibilityAnimateOther">
+                    </label>
+                    <label class="toggle-label">Other Animations</label>
+                </div>
+                <div class="save-wrapper | flex v-center gap-100">
+                    <p class="save-errror" id="accessibilityError"></p>
+                    <button class="btn textonly push-right" onclick="loadAccessibility(this)">Reset</button>
+                    <button class="btn clr-success filled darken no-mg" onclick="saveAccessibility(this)">
+                        <div class="loader"></div>
+                        <span>Save Changes</span>
+                    </button>
+                </div>
+            </section>
+            <br>
+            <h2 class="section-title" id="privacy">Privacy & Safety</h2>
+            <section class="section-wrapper privacy-wrapper">
+                <h3 class="title">Visible on My Profile</h3>
+                <div class="privacy-myprofile-grid | grid col4 even gap-100" id="privacyMyProfileVis">
+                    <div class="col">
+                        <h4 class="subtitle">Display Name</h4>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" name="privacyMyDisplayNameVis" id="privacyMyDisplayNameVisAnyone">
+                            </label>
+                            <label class="toggle-label">Anyone</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" name="privacyMyDisplayNameVis" id="privacyMyDisplayNameVisFriends">
+                            </label>
+                            <label class="toggle-label">Friends</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" name="privacyMyDisplayNameVis" id="privacyMyDisplayNameVisNone">
+                            </label>
+                            <label class="toggle-label">No One</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <h4 class="subtitle">Email</h4>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" name="privacyMyEmailVis" id="privacyMyEmailVisAnyone">
+                            </label>
+                            <label class="toggle-label">Anyone</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" name="privacyMyEmailVis" id="privacyMyEmailVisFriends">
+                            </label>
+                            <label class="toggle-label">Friends</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" name="privacyMyEmailVis" id="privacyMyEmailVisNone">
+                            </label>
+                            <label class="toggle-label">No One</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <h4 class="subtitle">Avatar</h4>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" name="privacyMyAvatarVis" id="privacyMyAvatarVisAnyone">
+                            </label>
+                            <label class="toggle-label">Anyone</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" name="privacyMyAvatarVis" id="privacyMyAvatarVisFriends">
+                            </label>
+                            <label class="toggle-label">Friends</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" name="privacyMyAvatarVis" id="privacyMyAvatarVisNone">
+                            </label>
+                            <label class="toggle-label">No One</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <h4 class="subtitle">Badges</h4>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" name="privacyMyBadgesVis" id="privacyMyBadgesVisAnyone">
+                            </label>
+                            <label class="toggle-label">Anyone</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" name="privacyMyBadgesVis" id="privacyMyBadgesVisFriends">
+                            </label>
+                            <label class="toggle-label">Friends</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" name="privacyMyBadgesVis" id="privacyMyBadgesVisNone">
+                            </label>
+                            <label class="toggle-label">No One</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <h4 class="subtitle">Social Links</h4>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" name="privacyMyLinksVis" id="privacyMyLinksVisAnyone">
+                            </label>
+                            <label class="toggle-label">Anyone</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" name="privacyMyLinksVis" id="privacyMyLinksVisFriends">
+                            </label>
+                            <label class="toggle-label">Friends</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" name="privacyMyLinksVis" id="privacyMyLinksVisNone">
+                            </label>
+                            <label class="toggle-label">No One</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <h4 class="subtitle">Pronouns</h4>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" name="privacyMyPronounsVis" id="privacyMyPronounsVisAnyone">
+                            </label>
+                            <label class="toggle-label">Anyone</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" name="privacyMyPronounsVis" id="privacyMyPronounsVisFriends">
+                            </label>
+                            <label class="toggle-label">Friends</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" name="privacyMyPronounsVis" id="privacyMyPronounsVisNone">
+                            </label>
+                            <label class="toggle-label">No One</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <h4 class="subtitle">About Me</h4>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" name="privacyMyAboutVis" id="privacyMyAboutVisAnyone">
+                            </label>
+                            <label class="toggle-label">Anyone</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" name="privacyMyAboutVis" id="privacyMyAboutVisFriends">
+                            </label>
+                            <label class="toggle-label">Friends</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" name="privacyMyAboutVis" id="privacyMyAboutVisNone">
+                            </label>
+                            <label class="toggle-label">No One</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <h4 class="subtitle">Achievements</h4>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" name="privacyMyAchievementsVis" id="privacyMyAchievementsVisAnyone">
+                            </label>
+                            <label class="toggle-label">Anyone</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" name="privacyMyAchievementsVis"
+                                    id="privacyMyAchievementsVisFriends">
+                            </label>
+                            <label class="toggle-label">Friends</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" name="privacyMyAchievementsVis" id="privacyMyAchievementsVisNone">
+                            </label>
+                            <label class="toggle-label">No One</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <h4 class="subtitle">Mutual Friends</h4>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" name="privacyMyFriendsVis" id="privacyMyFriendsVisAnyone">
+                            </label>
+                            <label class="toggle-label">Anyone</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" name="privacyMyFriendsVis" id="privacyMyFriendsVisFriends">
+                            </label>
+                            <label class="toggle-label">Friends</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" name="privacyMyFriendsVis" id="privacyMyFriendsVisNone">
+                            </label>
+                            <label class="toggle-label">No One</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <h4 class="subtitle">Public Projects</h4>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" name="privacyMyProjectsVis" id="privacyMyProjectsVisAnyone">
+                            </label>
+                            <label class="toggle-label">Anyone</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" name="privacyMyProjectsVis" id="privacyMyProjectsVisFriends">
+                            </label>
+                            <label class="toggle-label">Friends</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="radio" name="privacyMyProjectsVis" id="privacyMyProjectsVisNone">
+                            </label>
+                            <label class="toggle-label">No One</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="privacy-visible-grid | grid col2 even gap-100">
+                    <div class="col">
+                        <h3 class="title alphaFeature">Visible on Other Profiles</h3>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="checkbox" id="privacyOtherDisplayNameVis">
+                            </label>
+                            <label class="toggle-label">Display Name</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="checkbox" id="privacyOtherAvatarVis">
+                            </label>
+                            <label class="toggle-label">Avatar</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="checkbox" id="privacyOtherLinksVis">
+                            </label>
+                            <label class="toggle-label">Linked Accounts</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="checkbox" id="privacyOtherAboutVis">
+                            </label>
+                            <label class="toggle-label">About Me</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <h3 class="title">Visible to Blocked Users</h3>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="checkbox" id="privacyBlockedProfileVis">
+                            </label>
+                            <label class="toggle-label">My Profile</label>
+                        </div>
+                        <div class="toggle-wrapper">
+                            <label class="toggle">
+                                <input type="checkbox" id="privacyBlockedProjectsVis">
+                            </label>
+                            <label class="toggle-label">My Public Projects</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="save-wrapper | flex v-center gap-100">
+                    <p class="save-errror" id="privacyError"></p>
+                    <button class="btn textonly push-right" onclick="loadPrivacy(this)">Reset</button>
+                    <button class="btn clr-success filled darken no-mg" onclick="savePrivacy(this)">
+                        <div class="loader"></div>
+                        <span>Save Changes</span>
+                    </button>
+                </div>
+            </section>
+            <br>
+            <h2 class="section-title betaFeature" id="friends">Friends</h2>
+            <section class="section-wrapper friends-wrapper">
+                <div class="table" id="friendListTable" role="table"></div>
+                <h3>Incoming Requests</h3>
+                <div class="table" id="friendRequestsIncomingTable" role="table"></div>
+                <h3>Outgoing Requests</h3>
+                <div class="table" id="friendRequestsOutgoingTable" role="table"></div>
+            </section>
+            <br>
+            <h2 class="section-title betaFeature" id="blocked">Blocked Users</h2>
+            <section class="section-wrapper friends-wrapper">
+                <div class="table" id="blockedListTable" role="table"></div>
+            </section>
+            <br>
+            <h2 class="section-title betaFeature" id="experiments">Experiments</h2>
+            <section class="section-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="experimentsList"></tbody>
+                </table>
+            </section>
+            <br>
+        </div>
+    </div>
+
+    <div class="modal confirm" id="enableMfaAppModal">
+        <div class="content">
+            <h2 class="title">Enable 2-Factor Authentication</h2>
+            <h3>Step 1. Scan the QR code below:</h3>
+            <img class="enable-mfa-app-qr" id="enableMfaAppQr" alt="">
+            <label for="enableMfaAppCode"><h3>Step 2. Enter the one time code to activate</h3></label>
+            <input type="text" id="enableMfaAppCode" class="input" oninput="inputs.validate(this)">
+            <div class="confirm-actions">
+                <p class="save-error" id="enableMfaAppError"></p>
+                <button class="btn textonly push-right" onclick="securityMfaAppCancel()">Nevermind</button>
+                <button class="btn clr-success filled darken" onclick="securityMfaAppConfirm(this)">
+                    <div class="loader"></div>
+                    <span>Save Changes</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="modal confirm" id="extraMfaAppModal">
+        <div class="content">
+            <h2 class="title">Addtional 2-Factor Apps</h2>
+            <h3>Scan the QR code below:</h3>
+            <img class="enable-mfa-app-qr" id="extraMfaAppQr" alt="">
+            <div class="confirm-actions">
+                <button class="btn clr-success filled darken" onclick="modals.close('extraMfaAppModal')">Done</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal confirm" id="disableMfaAppModal" data-modal-width="wider">
+        <div class="content">
+            <h2 class="title">Disable App-Based 2FA</h2>
+            <p>Are you sure you want to disable App-Based 2 factor authentication?</p>
+            <div class="confirm-actions">
+                <p class="save-error" id="disableMfaAppError"></p>
+                <button class="btn textonly push-right" onclick="securityMfaAppCancel()">Nevermind</button>
+                <button class="btn clr-danger" onclick="securityMfaAppDisable(this)">
+                    <div class="loader"></div>
+                    <span>Disable</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal confirm" id="deleteAccountModal" data-modal-width="wider">
+        <div class="content">
+            <h2 class="title">Delete Account</h2>
+            <label class="label" for="deleteAccountUsername">Username</label>
+            <input type="text" id="deleteAccountUsername" class="input" oninput="deleteAccountValidate(this, this.nextElementSibling.children[0].children[0])">
+            <div class="toggle-wrapper">
+                <label class="toggle"><input type="checkbox" id="deleteAccountConfirm" onclick="deleteAccountValidate(this.parentElement.parentElement.previousElementSibling, this)"></label>
+                <label for="deleteAccountConfirm" class="toggle-label label" style="text-transform: none;">I acknowledge that deleting my account may cause my Projects, Templates, Blocklets, Teams, Feedback Posts and any other content on the platform created by me may be deleted.</label>
+            </div>
+            <div class="confirm-actions">
+                <p class="save-error" id="deleteAccountError"></p>
+                <button class="btn textonly push-right" onclick="modals.close('deleteAccountModal')">Nevermind</button>
+                <button class="btn clr-danger" id="deleteAccountButton" onclick="deleteAccount(this)" disabled>
+                    <div class="loader"></div>
+                    <span>Delete Account</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="modal confirm" id="disableAccountModal" data-modal-width="wider">
+        <div class="content">
+            <h2 class="title">Disable Account</h2>
+            <p>Disabling your account is not permanent and will not delete any projects, teams or blocklets you own. You will be emailed a code which will be required to reactiviate your account. <b>Keep this safe as you can't get back into your account without it!</b></p>
+            <label class="label" for="disableAccountUsername">Username</label>
+            <input type="text" id="disableAccountUsername" class="input" oninput="disableAccountValidate(this)">
+            <div class="confirm-actions">
+                <p class="save-error" id="disableAccountError"></p>
+                <button class="btn textonly push-right" onclick="modals.close('disableAccountModal')">Nevermind</button>
+                <button class="btn clr-danger" id="disableAccountButton" onclick="disableAccount(this)" disabled>
+                    <div class="loader"></div>
+                    <span>Disable Account</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
