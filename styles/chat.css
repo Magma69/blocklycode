@@ -46,8 +46,8 @@
     font-size: var(--font-fam);
     position: absolute;
     right: 5px;
-    width: 600px;
-    height: 25px;
+    width: 590px;
+    height: 40px;
     border: 1px solid white;
     margin: 5px;
 }
@@ -106,13 +106,26 @@
     border-right: 1px solid white;
     border-top: 1px solid white;
     border-top-right-radius: 5px;
-    padding-right: 3px;
+    border-bottom: 1px solid white;
+    border-bottom-right-radius: 5px;
+    padding: 3px 3px 5px 3px;
+    width: 150px;
+    height: 90%;
 }
 
-.userButtons .author {
-    width: 50px;
+.userButtons .profile .author {
+    width: 40px;
 }
-.userButtons .username {
+
+.otherOptions {
+    text-align: center;
+}
+.userButtons .otherOptions .username {
     font-size: 15px;
     font-family: var(--font-fam);
+    margin: 0px;
+}
+
+.buttonContain {
+    display: inline-grid;
 }
