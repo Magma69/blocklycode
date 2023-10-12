@@ -132,11 +132,3 @@ const webSocket = new WebSocket('ws://localhost:8080');
 
 
 
-function hoverEffect(id) {
-    let element = document.getElementById(id)
-    if (id == "setting") {
-        element.innerHTML = `<i class='bx bx-cog bx-tada' style='color:#ffffff;width: 24px; height: 24px;' ></i>`
-    } else if (id == "focus") {
-        element.innerHTML = `<i class='bx bxs-shield-minus bx-tada' style='color:#fffffF; width: 24px; height: 24px;'></i>`
-    }
-}
