@@ -115,6 +115,10 @@
 
 .userButtons .profile .author {
     width: 40px;
+    transition: 0.5s;
+}
+.userButtons .profile .author:hover {
+    cursor: pointer;
 }
 
 .otherOptions {
@@ -124,8 +128,34 @@
     font-size: 15px;
     font-family: var(--font-fam);
     margin: 0px;
+    transition: 0.5s;
+}
+.userButtons .otherOptions .username:hover {
+    cursor: pointer;
 }
 
 .buttonContain {
     display: inline-grid;
+}
+
+
+
+/* icon animation? */
+
+.icon {
+    animation: tada 1.5s ease infinite;
+}
+
+@keyframes tada {
+    0% {transform: scale3d(1,1,1);}
+    10% {transform: scale3d(.95, .95, .95) rotate3d(0,0,1,-10deg);}
+    20% {transform: scale3d(.95, .95, .95) rotate3d(0,0,1,-10deg);}
+    30% {transform: scale3d(1,1,1) rotate3d(0,0,1,10deg);}
+    40% {transform:  rotate3d(0,0,1,-10deg);}
+    50% {transform: scale3d(1,1,1) rotate3d(0,0,1,10deg);}
+    60% {transform:  rotate3d(0,0,1,-10deg);}
+    70% {transform: scale3d(1,1,1) rotate3d(0,0,1,10deg);}
+    80% {transform:  rotate3d(0,0,1,-10deg);}
+    90% {transform: scale3d(1,1,1) rotate3d(0,0,1,10deg);}
+    100% {transform: scale3d(1,1,1);}
 }
