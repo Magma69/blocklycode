@@ -1,3 +1,69 @@
+.userSettings {
+    display: flex;
+}
+.userSelection {
+    display: grid;
+}
+.userSelection button {
+    background: transparent;
+    border-bottom: 1px solid white;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    text-align: center;
+    color: white;
+    font-size: 15px;
+    font-family: var(--font-fam);
+    transition: 0.5s;
+}
+.userSelection button:hover {
+    background: #202020;
+    cursor: pointer;
+}
+
 .userSection {
-    background: #202
+    background: #202020;
+    margin: 5px;
+    width: 90%;
+}
+.topstuff {
+    display: inline-flex;
+    border: 1px solid white;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.userSection .topstuff img {
+    width: 100px;
+    height: 100px;
+}
+.userSection .toptext {
+    font-family: var(--font-fam);
+}
+
+.userSection .toptext h1 {
+    font-size: 20px;
+}
+.userSection .toptext p {
+    font-size: 15px;
+}
+
+
+.userSection .links a {
+    text-decoration: none;
+    color: white;
+    font-family: var(--font-fam);
+    font-size: 15px;
+}
+
+.userSection .personalInformation {
+    border: 1px solid rgb(250, 177, 177);
+    border-radius: 5px;
+    width: 50%;
+    margin: auto;
+}
+
+.userSection .personalInformation p {
+    font-size: 15px;
+    font-family: var(--font-fam);
 }
