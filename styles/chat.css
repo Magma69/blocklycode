@@ -1,0 +1,99 @@
+.container {
+    display: none;
+}
+.messages {
+    border: 1px solid white;
+    height: 80vh;
+    overflow-y: scroll;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    border-left: 1px solid white; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+.inputBar {
+    background: #202020;
+    height: 35px;
+    width: 800px;
+    position: absolute;
+    padding-bottom: 5px;
+    bottom: 0;
+    left: 0;
+}
+.inputBar input {
+    background: transparent;
+    border: 1px solid white;
+    border-radius: 5px;
+    color: white;
+    font-size: var(--font-fam);
+    position: absolute;
+    right: 5px;
+    width: 700px;
+    height: 25px;
+    border: 1px solid white;
+    margin: 5px;
+}
+.inputBar button {
+    background: transparent;
+    border: none;
+    color: white;
+}
+
+
+/* MESSAGES */
+.message {
+    height: 55px;
+    width: 90vw;   
+    transition: 0.5s;
+    display: flex;
+    border-left: 3px solid rgb(181, 181, 247);
+    margin: 5px;
+}
+.serverMessage {
+    height: 55px;
+    width: 90vw;   
+    transition: 0.5s;
+    display: flex;
+    border-left: 3px solid rgb(240, 150, 123);
+    margin: 5px;
+}
+.message:hover {
+    background: #202020;
+}
+.message .author {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    padding: 1px;
+    margin-right: 10px;
+}
+.messageBody {
+    color: white;
+}
+.messageBody .username {
+    font-family: var(--font-fam);
+    margin-bottom: 0px;
+    font-size: 13px;
+}
+.messageBody .text {
+    font-family: var(--font-fam);
+    font-size: 15px;
+    margin-top: 0px;
+}

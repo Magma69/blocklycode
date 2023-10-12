@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=AR+One+Sans&family=Roboto+Mono&display=swap');
+:root {
+    --font-fam: 'Roboto Mono', monospace;
+    --font-fam2: 'AR One Sans', sans-serif;
+}
+
+
+body {
+    background: #444;
+    color: white;
+    overflow: hidden;
+}
+
+.veryTop {
+    border-bottom: 1px solid white;
+    -webkit-app-region: drag;
+}
+.veryTop h1 {
+    text-align: center;
+    font-size: 10px;
+    font-family: var(--font-fam);
+}
+
+.veryTop button {
+    background: transparent;
+    border: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    -webkit-app-region: no-drag;
+}
+.veryTop button:hover {
+    cursor: pointer;
+}
