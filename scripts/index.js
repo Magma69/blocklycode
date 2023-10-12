@@ -131,4 +131,17 @@ const webSocket = new WebSocket('ws://localhost:8080');
     }
 
 
-
+function hoverEffect(id) {
+  if (id == "setting") {
+    document.getElementById('number1').classList.add('icon')
+  } else {
+    document.getElementById('number2').classList.add('icon')
+  }
+}
+function endEffect(id) {
+  if (id == "setting") {
+    document.getElementById('number1').classList.remove('icon')
+  } else {
+    document.getElementById('number2').classList.remove('icon')
+  }
+}
