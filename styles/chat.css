@@ -30,12 +30,13 @@
 
 .inputBar {
     background: #202020;
-    height: 35px;
+    height: 50px;
     width: 800px;
     position: absolute;
     padding-bottom: 5px;
     bottom: 0;
     left: 0;
+    display: flex;
 }
 .inputBar input {
     background: transparent;
@@ -45,7 +46,7 @@
     font-size: var(--font-fam);
     position: absolute;
     right: 5px;
-    width: 700px;
+    width: 600px;
     height: 25px;
     border: 1px solid white;
     margin: 5px;
@@ -96,4 +97,15 @@
     font-family: var(--font-fam);
     font-size: 15px;
     margin-top: 0px;
+}
+.userButtons {
+    display: flex
+}
+
+.userButtons .author {
+    width: 50px;
+}
+.userButtons .username {
+    font-size: 15px;
+    font-family: var(--font-fam);
 }
