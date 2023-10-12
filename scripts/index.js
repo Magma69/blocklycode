@@ -11,7 +11,7 @@ function login() {
 //eventualy makes a call to the server to get the users data and stuff but for rn it will do nothing....
             let userData = {
                 username: '@rr41',
-                userIMG: './public/icon.png'
+                userIMG: './static/icon.png'
             }
             sessionStorage.setItem("userData", JSON.stringify(userData))
 
@@ -88,7 +88,7 @@ function createNewMessage(message, messageType) {
 
     //creates the userIMG
     let userIMG = document.createElement('img')
-    userIMG.src = './public/thumbnail.jpg'
+    userIMG.src = './static/thumbnail.jpg'
     userIMG.classList.add("author")
     //creates the messageBody 
     let messageBody = document.createElement('div')
