@@ -5,6 +5,6 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   
     for (const type of ['app']) {
-      replaceText(`${type}-version`, `Version: 0.0.0`)
+      replaceText(`${type}-version`, `Version: 1.0.0`)
     }
   })
